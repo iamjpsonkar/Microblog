@@ -1,6 +1,8 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from flask import redirect
+from flask import url_for
 
 from pymongo import MongoClient
 import datetime
@@ -19,6 +21,7 @@ def create_app():
             entry_content=request.form['content']
             formatted_date = datetime.datetime.today().strftime("%d-%m-%Y")
             app_db.Entries.insert_one({"content":entry_content,"date":formatted_date})
+            return redirect(url_for('home_f'))
         #     entries.append([entry_content,formatted_date])
         # entries_with_date=[
         #     (
@@ -35,6 +38,7 @@ def create_app():
                 datetime.datetime.strptime(entry["date"],"%d-%m-%Y").strftime("%b %d")
             ) for entry in app_db.Entries.find({})
             ]
+        
         return render_template('home.html',entries=entries_with_date)
     
     return app
