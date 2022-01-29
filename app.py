@@ -5,11 +5,14 @@ from flask import redirect
 from flask import url_for
 from pymongo import MongoClient
 import datetime
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)
-    client = MongoClient("mongodb+srv://iamjpsonkar:Jay%401998@microblog-application.hwgwf.mongodb.net/testt")
+    client = MongoClient(os.environ.get("MONGODB_URI"))
     app_db=client.Microblog
     # entries = [] 
 
